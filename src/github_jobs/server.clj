@@ -2,7 +2,9 @@
   (:gen-class) ; for -main method in uberjar
   (:require [io.pedestal.http :as server]
             [io.pedestal.http.route :as route]
-            [github-jobs.service :as service]))
+            [github-jobs.service :as service]
+            [com.stuartsierra.component :as component]
+            [github_jobs.system :as system]))
 
 ;; This is an adapted service map, that can be started and stopped
 ;; From the REPL you can call server/start and server/stop on this service
@@ -33,24 +35,6 @@
   "The entry-point for 'lein run'"
   [& args]
   (println "\nCreating your server...")
-  (server/start runnable-service))
-
-;; If you package the service up as a WAR,
-;; some form of the following function sections is required (for io.pedestal.servlet.ClojureVarServlet).
-
-;;(defonce servlet  (atom nil))
-;;
-;;(defn servlet-init
-;;  [_ config]
-;;  ;; Initialize your app here.
-;;  (reset! servlet  (server/servlet-init service/service nil)))
-;;
-;;(defn servlet-service
-;;  [_ request response]
-;;  (server/servlet-service @servlet request response))
-;;
-;;(defn servlet-destroy
-;;  [_]
-;;  (server/servlet-destroy @servlet)
-;;  (reset! servlet nil))
-
+  (component/start (system/new-system :dev))
+  (println "System Started")
+  @(promise))
