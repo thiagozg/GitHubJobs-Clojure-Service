@@ -1,4 +1,6 @@
 # Project related
+.idea
+.iml
 
 # Java related
 pom.xml
@@ -35,4 +37,20 @@ repl-port
 # Builds
 out/
 build/
+
+ # Leningen from https://github.com/github/gitignore/blob/master/Leiningen.gitignore
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/lib/
+/classes/
+/target/
+/checkouts/
+.lein-deps-sum
+.lein-repl-history
+.lein-plugins/
+.lein-failures
+.nrepl-port
+.cpcache/
 
