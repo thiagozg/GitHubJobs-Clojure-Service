@@ -6,10 +6,9 @@
   [service-map]
   (= :test (:env service-map)))
 
-(defrecord Pedestal [service-map
-                     service]
+(defrecord Pedestal
+  [service-map service]
   component/Lifecycle
-
   (start
     [this]
     (if service
@@ -24,6 +23,6 @@
       (http/stop service))
     (assoc this :service nil)))
 
-(defn provides-pedestal
+(defn provides
   []
   (map->Pedestal {}))

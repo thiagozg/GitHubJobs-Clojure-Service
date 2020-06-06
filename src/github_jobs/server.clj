@@ -4,7 +4,7 @@
             [io.pedestal.http.route :as route]
             [github-jobs.service :as service]
             [com.stuartsierra.component :as component]
-            [github_jobs.system :as system]))
+            [github-jobs.di.component :as di-component]))
 
 ;; This is an adapted service map, that can be started and stopped
 ;; From the REPL you can call server/start and server/stop on this service
@@ -34,7 +34,7 @@
 (defn -main
   "The entry-point for 'lein run'"
   [& args]
-  (println "\nCreating your server...")
-  (component/start (system/new-system :dev))
-  (println "System Started")
+  (println "\nCreating server...")
+  (component/start (di-component/start-server :dev))
+  (println "Server started, have fun! ;)")
   @(promise))
