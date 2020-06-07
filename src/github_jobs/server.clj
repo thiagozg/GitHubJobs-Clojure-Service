@@ -4,7 +4,8 @@
             [io.pedestal.http.route :as route]
             [github-jobs.service :as service]
             [com.stuartsierra.component :as component]
-            [github-jobs.di.component :as di-component]))
+            [github-jobs.di.component :as di-component]
+            [schema.core :as s]))
 
 ;; This is an adapted service map, that can be started and stopped
 ;; From the REPL you can call server/start and server/stop on this service
@@ -36,5 +37,6 @@
   [& args]
   (println "\nCreating server...")
   (component/start (di-component/start-server :dev))
+  (s/set-fn-validation! true)
   (println "Server started, have fun! ;)")
   @(promise))
