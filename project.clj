@@ -21,6 +21,7 @@
                  [org.slf4j/jul-to-slf4j "1.7.26"]
                  [org.slf4j/jcl-over-slf4j "1.7.26"]
                  [org.slf4j/log4j-over-slf4j "1.7.26"]]
+  :jvm-opts ["-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5010"]
   :min-lein-version "2.0.0"
   :resource-paths ["config", "resources"]
   ;; If you use HTTP/2 or ALPN, use the java-agent to pull in the correct alpn-boot dependency
