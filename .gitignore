@@ -1,6 +1,8 @@
 # Project related
 .idea
 .iml
+*.idea
+*.iml
 
 # Java related
 pom.xml
