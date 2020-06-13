@@ -1,5 +1,6 @@
 (ns github-jobs.di.datomic
   (:require [com.stuartsierra.component :as component]
+            [github-jobs.datomic.schemas :as db-schemas]
             [datomic.api :as d]))
 
 (defrecord Datomic
@@ -7,8 +8,10 @@
   component/Lifecycle
   (start [this]
     (d/create-database db-uri)
-    (merge this {:conn (d/connect db-uri)
-                 :uri  db-uri}))
+    (let [conn (d/connect db-uri)]
+      (db-schemas/create conn)
+      (merge this {:conn conn
+                   :uri  db-uri})))
   (stop [this]
     (if (:conn this) (d/release (:conn this)))
     (dissoc this :uri :conn)))
