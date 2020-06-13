@@ -1,16 +1,12 @@
 (ns github-jobs.service
-  (:require [clojure.tools.logging :as log]
-            [io.pedestal.http :as http]
+  (:require [io.pedestal.http :as http]
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.interceptor.error :as error-int]
             [github-jobs.schemata-in.job :as s-in]
             [github-jobs.adapter :as adapter]
             [ring.util.response :as ring-resp]
-            [schema.core :as s]
-            [io.pedestal.interceptor :as i]
-            [schema.utils :as s-utils])
-  (:import (org.apache.log4j Logger Level)))
+            [taoensso.timbre :as timbre]))
 
 (defn about-page
   [request]
@@ -23,6 +19,7 @@
   ;; TODO: return 201 status code
   (ring-resp/response "Hello World -> Post Jobs!!"))
 
+;; TODO: clean the comments of this file
 ;; Defines "/" and "/about" routes with their associated :get handlers.
 ;; The interceptors defined after the verb map (e.g., {:get home-page}
 ;; apply to / and its children (/about).
@@ -38,13 +35,16 @@
 ;                   "/about" {:get about-page}}})
 
 ;; Terse/Vector-based routes
+
 (def ^:private service-error-handler
   (error-int/error-dispatch
     [context ex]
 
     [{:exception-type :java.lang.IllegalArgumentException}]
-    (assoc context :response {:status 412
-                              :body   {:message "The request body does not match with contract"}})
+    (do
+      (timbre/error ex)
+      (assoc context :response {:status 412
+                                :body   {:message "The request body does not match with contract"}}))
 
     :else
     (assoc context :response {:status 500
