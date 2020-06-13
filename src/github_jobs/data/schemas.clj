@@ -1,4 +1,4 @@
-(ns github-jobs.datomic.schemas
+(ns github-jobs.data.schemas
   (:require [datomic.api :as d]))
 
 (def ^:private job-schema
