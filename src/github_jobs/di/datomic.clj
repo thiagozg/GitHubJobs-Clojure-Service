@@ -1,6 +1,6 @@
 (ns github-jobs.di.datomic
   (:require [com.stuartsierra.component :as component]
-            [github-jobs.datomic.schemas :as db-schemas]
+            [github-jobs.data.schemas :as db-schemas]
             [datomic.api :as d]))
 
 (defrecord Datomic
