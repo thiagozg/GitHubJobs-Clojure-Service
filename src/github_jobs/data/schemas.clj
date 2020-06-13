@@ -19,7 +19,7 @@
     :db/cardinality :db.cardinality/one
     :db/doc         "URL link to Job Description"}
    {:db/ident       :job/category
-    :db/valueType   :db.type/ref
+    :db/valueType   :db.type/string                         ; TODO: change later to "ref"
     :db/cardinality :db.cardinality/many
     :db/doc         "Category choose by user"}])
 
