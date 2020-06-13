@@ -1,11 +1,16 @@
 (ns github-jobs.service
-  (:require [io.pedestal.http :as http]
+  (:require [clojure.tools.logging :as log]
+            [io.pedestal.http :as http]
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
-            [github-jobs.schemata-in.job :refer :all]
+            [io.pedestal.interceptor.error :as error-int]
+            [github-jobs.schemata-in.job :as s-in]
             [github-jobs.adapter :as adapter]
             [ring.util.response :as ring-resp]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [io.pedestal.interceptor :as i]
+            [schema.utils :as s-utils])
+  (:import (org.apache.log4j Logger Level)))
 
 (defn about-page
   [request]
@@ -14,7 +19,8 @@
                               (route/url-for ::about-page))))
 
 (defn save-new-job
-  [payload] ; TODO: return 201 status code
+  [payload]
+  ;; TODO: return 201 status code
   (ring-resp/response "Hello World -> Post Jobs!!"))
 
 ;; Defines "/" and "/about" routes with their associated :get handlers.
@@ -32,9 +38,21 @@
 ;                   "/about" {:get about-page}}})
 
 ;; Terse/Vector-based routes
+(def ^:private service-error-handler
+  (error-int/error-dispatch
+    [context ex]
+
+    [{:exception-type :java.lang.IllegalArgumentException}]
+    (assoc context :response {:status 412
+                              :body   {:message "The request body does not match with contract"}})
+
+    :else
+    (assoc context :response {:status 500
+                              :body "Internal Server Error"})))
+
 (def routes
   (route/expand-routes
-    `[[["/api" ^:interceptor
+    `[[["/api" ^:interceptors [service-error-handler]
 
         ; TODO: remove this later
         ["/about" ^:interceptors [(body-params/body-params)
@@ -42,7 +60,7 @@
          {:get about-page}]
 
         ["/job" ^:interceptors [(body-params/body-params)
-                                (adapter/coerce-body-request JobReference)
+                                (adapter/coerce-body-request s-in/JobReference)
                                 http/json-body]
          {:post save-new-job}]
 
