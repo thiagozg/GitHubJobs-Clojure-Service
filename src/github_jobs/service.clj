@@ -16,7 +16,8 @@
                               (route/url-for ::about-page))))
 
 (defn save-new-job
-  [{:keys [payload datomic]}]
+  [{:keys [payload]
+    {:keys [datomic]} :context-deps}]
   (controller/save-job-async payload (:conn datomic))
   {:status 201})
 
