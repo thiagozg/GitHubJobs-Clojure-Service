@@ -1,15 +1,21 @@
 (ns github-jobs.data.job
   (:require [schema.core :as s]
-            [github-jobs.model.job :as model-job]
-            [github-jobs.model.category :as model-category]
+            [github-jobs.model.job :refer [JobDTO]]
+            [github-jobs.model.category :refer [CategoryDTO]]
             [datomic.api :as d]))
 
-(s/defn upsert-job
+(s/defn upsert-job!
   [conn
-   job :- model-job/JobDTO]
-  (d/transact conn job))
+   job :- JobDTO]
+  (d/transact conn [job]))
 
-(s/defn upsert-category
+(s/defn upsert-category!
   [conn
-   category :- model-category/CategoryDTO]
+   category :- CategoryDTO]
   (d/transact conn category))
+
+(defn get-all-jobs
+  [db]
+  (d/q '[:find (pull ?job [*])
+         :where [?job :job/id]]
+       db))
