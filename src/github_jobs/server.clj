@@ -6,17 +6,18 @@
             [com.stuartsierra.component :as component]
             [github-jobs.di.component :as di-component]
             [schema.core :as s]
-            [taoensso.timbre :as timbre]))
+            [taoensso.timbre :as timbre]
+            [github-jobs.di.http-config :as http-config]))
 
 ;; This is an adapted service map, that can be started and stopped
 ;; From the REPL you can call server/start and server/stop on this service
-(defonce runnable-service (server/create-server service/service))
+(defonce runnable-service (server/create-server (http-config/provides :dev)))
 
 (defn run-dev
   "The entry-point for 'lein run-dev'"
   [& args]
   (println "\nCreating your [DEV] server...")
-  (-> service/service ;; start with production configuration
+  (-> (http-config/provides :prod) ;; start with production configuration
       (merge {:env :dev
               ;; do not block thread that starts web server
               ::server/join? false
@@ -36,7 +37,7 @@
 (defn -main
   "The entry-point for 'lein run'"
   [& args]
-  (timbre/info "\nCreating server...")
+  (timbre/info "Creating server...")
   (component/start (di-component/start-server :dev))
   (s/set-fn-validation! true)
   (timbre/info "Server started, have fun! ;)")
