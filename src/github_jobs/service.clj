@@ -3,6 +3,7 @@
             [io.pedestal.http.route :as route]
             [io.pedestal.http.body-params :as body-params]
             [io.pedestal.interceptor.error :as error-int]
+            [github-jobs.controller :as controller]
             [github-jobs.schemata-in.job :as s-in]
             [github-jobs.adapter :as adapter]
             [ring.util.response :as ring-resp]
@@ -15,9 +16,9 @@
                               (route/url-for ::about-page))))
 
 (defn save-new-job
-  [payload]
-  ;; TODO: return 201 status code
-  (ring-resp/response "Hello World -> Post Jobs!!"))
+  [{:keys [payload datomic]}]
+  (controller/save-job-async payload (:conn datomic))
+  {:status 201})
 
 ;; TODO: clean the comments of this file
 ;; Defines "/" and "/about" routes with their associated :get handlers.

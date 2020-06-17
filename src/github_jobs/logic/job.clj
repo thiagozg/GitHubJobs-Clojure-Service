@@ -7,7 +7,7 @@
 (s/defn wire->job-dto :- model/JobDTO
   [{:keys [id title url category]} :- s-in/JobReference]
   {:job/id        (UUID/randomUUID)
-   :job/github-id id
+   :job/github-id (UUID/fromString id)
    :job/title     title
    :job/url       url
    :job/category  category})
