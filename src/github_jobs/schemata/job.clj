@@ -1,4 +1,4 @@
-(ns github-jobs.schemata-in.job
+(ns github-jobs.schemata.job
   (:require [schema.core :as s]))
 
 (s/defschema JobReference
