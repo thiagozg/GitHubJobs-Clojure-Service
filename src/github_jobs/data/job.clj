@@ -14,8 +14,13 @@
    category :- CategoryDTO]
   (d/transact conn category))
 
-(defn get-all-jobs
+(s/defn get-all-jobs! :- [JobDTO]
   [db]
   (d/q '[:find (pull ?job [*])
          :where [?job :job/id]]
        db))
+
+(s/defn retract-job!
+  [conn
+   job-id :- s/Str]
+  (d/transact conn '[:db/retractEntity [:job/id job-id]]))

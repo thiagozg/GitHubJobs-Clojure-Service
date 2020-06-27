@@ -6,3 +6,6 @@
    :title    s/Str
    :url      s/Str
    :category [s/Str]})
+
+(s/defschema JobUpdate
+  (select-keys JobReference [:title :url :category]))
