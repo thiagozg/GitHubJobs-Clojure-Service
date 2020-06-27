@@ -1,7 +1,7 @@
 (ns github-jobs.controller
   (:require [github-jobs.data.job :as db]
             [github-jobs.schemata-in.job :as s-in]
-            [github-jobs.logic.job :refer [wire->job-dto]]
+            [github-jobs.logic.job :refer [wire->new-job-dto]]
             [schema.core :as s]))
 
 (s/defn save-job-async
@@ -13,5 +13,17 @@
 
   ;; TODO: check return threading and if gets wrong, throw exception
   (->> wire
-       wire->job-dto
+       wire->new-job-dto
        (db/upsert-job! db-conn)))
+
+(s/defn update-job-async
+  [wire :- s-in/JobUpdate
+   db-conn]
+  (->> wire
+       wire->new-job-dto
+       (db/upsert-job! db-conn)))
+
+(s/defn delete-job-async
+  [job-github-id :- s/Str
+   db-conn]
+  (db/retract-job! db-conn job-github-id))
