@@ -33,7 +33,7 @@
 
 (defn coerce-body-request
   [schema]
-  (interceptor/on-request ::payload
+  (interceptor/on-request ::payload-request
                           (fn [request]
                             (dissoc
                               (->> (:json-params request)

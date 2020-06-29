@@ -7,11 +7,11 @@
             [github-jobs.adapter :as adapter]
             [ring.util.response :as ring-resp]))
 
-; TODO: add filters for title and categories
 (defn fetch-jobs
-  [{{{conn :conn} :datomic} :context-deps}]
+  [{:keys [query-params]
+    {{conn :conn} :datomic} :context-deps}]
   (ring-resp/response
-    (controller/get-jobs conn)))
+    (controller/get-jobs query-params conn)))
 
 (defn save-new-job
   [{:keys [payload]
@@ -35,9 +35,8 @@
   (route/expand-routes
     `[[["/api" ^:interceptors [adapter/service-error-handler]
 
-        ; TODO: add response interceptor
         ["/job" ^:interceptors [(body-params)
-                                http/html-body]
+                                http/json-body]
          {:get fetch-jobs}]
 
         ["/job" ^:interceptors [(body-params)

@@ -6,9 +6,10 @@
             [schema.core :as s]))
 
 (s/defn get-jobs :- [schemata/JobReference]
-  [db-conn]
-  (->> db-conn
-       db/get-all-jobs!
+  [wire
+   db-conn]
+  (->> wire
+       (db/get-jobs! db-conn)
        (mapv datom-job->wire)))
 
 (s/defn save-job-async

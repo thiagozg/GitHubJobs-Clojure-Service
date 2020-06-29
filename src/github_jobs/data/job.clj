@@ -4,20 +4,24 @@
             [github-jobs.model.category :refer [CategoryDTO]]
             [datomic.api :as d]))
 
-(s/defn get-all-jobs!
-  [conn]
-  (d/q '[:find [(pull ?job [*]) ...]
-         :where [?job :job/id]]
-       (d/db conn)))
-
-; TODO: fetch jobs by title and/or categories
-(s/defn get-jobs-by!
+(defn get-jobs!
   [conn
-   title :- s/Str
-   category :- [s/Str]]
-  (d/q '[:find [(pull ?job [*]) ...]
-         :where [?job :job/id]]
-       (d/db conn)))
+   {:keys [title
+           category]}]
+  (let [query-base {:query '{:find  [[(pull ?job [*]) ...]]
+                             :in    [$]
+                             :where [[?job :job/id _]]}
+                    :args  [(d/db conn)]}]
+    (cond-> query-base
+            title (->
+                    (update-in [:query :in] conj '?title)
+                    (update-in [:query :where] conj '[?job :job/title ?title])
+                    (update-in [:args] conj title))
+            category (->
+                    (update-in [:query :in] conj '?category)
+                    (update-in [:query :where] conj '[?job :job/category ?category])
+                    (update-in [:args] conj category))
+            true d/query)))
 
 (s/defn insert-job!
   [conn
