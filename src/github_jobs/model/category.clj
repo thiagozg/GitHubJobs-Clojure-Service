@@ -1,7 +1,6 @@
 (ns github-jobs.model.category
-  (:require [schema.core :as s])
-  (:import (java.util UUID)))
+  (:require [schema.core :as s]))
 
 (s/defschema CategoryDTO
-  {:category/id   UUID
+  {:category/id   s/Uuid
    :category/name s/Str})

@@ -9,7 +9,8 @@
    {:db/ident       :job/github-id
     :db/valueType   :db.type/uuid
     :db/cardinality :db.cardinality/one
-    :db/doc         "GitHub ID reference"}
+    :db/doc         "GitHub ID reference"
+    :db/unique      :db.unique/value}
    {:db/ident       :job/title
     :db/valueType   :db.type/string
     :db/cardinality :db.cardinality/one
