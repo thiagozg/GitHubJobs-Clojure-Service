@@ -20,15 +20,14 @@
   {:status 201})
 
 (defn update-job
-  [{:keys [path payload]
-    {{conn :conn} :datomic} :context-deps}]
-  (controller/update-job-async path payload conn)
+  [{:keys [path-params payload] {{conn :conn} :datomic} :context-deps}]
+  (controller/update-job-async path-params payload conn)
   {:status 200})
 
 (defn delete-job
-  [{:keys [path]
+  [{:keys [path-params]
     {{conn :conn} :datomic} :context-deps}]
-  (controller/delete-job-async path conn)
+  (controller/delete-job-async path-params conn)
   {:status 200})
 
 (def routes
@@ -44,14 +43,12 @@
                                 http/json-body]
          {:post save-new-job}]
 
-        ;["/job" ^:interceptors [(adapter/coerce-path-param ???)
-        ;                        (body-params)
-        ;                        (adapter/coerce-body-request schemata/JobReference)
-        ;                        http/json-body]
-        ; {:put update-job}]
+        ["/job/:github-id" ^:interceptors [(body-params)
+                                           (adapter/coerce-body-request schemata/JobUpdate)
+                                           http/json-body]
+         {:put update-job}]
 
-        ;["/job" ^:interceptors [(adapter/coerce-path-param ???)
-        ;                        http/json-body]
-        ; {:delete delete-job}]
+        ["/job/:github-id"
+         {:delete delete-job}]
 
         ]]]))

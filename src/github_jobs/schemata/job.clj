@@ -8,4 +8,6 @@
    :category [s/Str]})
 
 (s/defschema JobUpdate
-  (select-keys JobReference [:title :url :category]))
+  {(s/optional-key :title)    s/Str
+   (s/optional-key :url)      s/Str
+   (s/optional-key :category) [s/Str]})
