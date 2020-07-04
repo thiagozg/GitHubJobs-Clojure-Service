@@ -13,10 +13,14 @@
   (error-int/error-dispatch
     [context ex]
 
+    [{:exception-type :java.lang.IndexOutOfBoundsException}]
+    (log-error
+      ex (assoc context :response {:status 404}))
+
     [{:exception-type :java.lang.IllegalArgumentException}]
     (log-error
       ex (assoc context :response {:status 412
-                                   :body   {:message "The request body does not match with contract"}}))
+                                   :body   {:message "The request body does not match with contract..."}}))
 
     :else
     (log-error
@@ -34,9 +38,9 @@
 (defn coerce-body-request
   [schema]
   (interceptor/on-request ::payload-request
-                          (fn [request]
+                          (fn [{body-params :json-params :as request}]
                             (dissoc
-                              (->> (:json-params request)
+                              (->> body-params
                                    (coerce-and-validate! schema coerce/json-coercion-matcher)
                                    (assoc request :payload))
                               :json-params))))
