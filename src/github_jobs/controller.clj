@@ -1,8 +1,7 @@
 (ns github-jobs.controller
   (:require [github-jobs.data.job :as db]
-            [github-jobs.model.job :refer [NewDto]]
             [github-jobs.schemata.job :as schemata]
-            [github-jobs.logic.job :refer [wire->new-job datom-job->wire wire->update-job]]
+            [github-jobs.logic.job :as logic-job]
             [schema.core :as s]
             [schema.coerce :as coerce]))
 
@@ -11,7 +10,7 @@
    db-conn]
   (->> wire
        (db/get-jobs! db-conn)
-       (mapv datom-job->wire)))
+       (mapv logic-job/datom-job->wire)))
 
 (s/defn save-job-async
   [wire :- schemata/JobReference
@@ -22,7 +21,7 @@
 
   ;; TODO: check return threading and if gets wrong, throw exception
   (->> wire
-       wire->new-job
+       logic-job/wire->new-dto
        (db/insert-job! db-conn)))
 
 (s/defn update-job-async
@@ -30,7 +29,7 @@
    wire :- schemata/JobUpdate
    db-conn]
   (->> wire
-       wire->update-job
+       logic-job/wire->update-dto
        (db/update-job! db-conn (coerce/string->uuid github-id))))
 
 (defn delete-job-async

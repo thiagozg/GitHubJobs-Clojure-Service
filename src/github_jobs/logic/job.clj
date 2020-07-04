@@ -1,5 +1,5 @@
 (ns github-jobs.logic.job
-  (:require [github-jobs.model.job :as model]
+  (:require [github-jobs.model.job :as model-job]
             [schema.core :as s]
             [github-jobs.schemata.job :as schemata]
             [schema.coerce :as coerce])
@@ -12,7 +12,7 @@
    :url      url
    :category category})
 
-(s/defn wire->new-job :- model/NewDto
+(s/defn wire->new-dto :- model-job/NewDto
   [{:keys [id title url category]} :- schemata/JobReference]
   {:job/id        (UUID/randomUUID)
    :job/github-id (coerce/string->uuid id)
@@ -20,7 +20,7 @@
    :job/url       url
    :job/category  category})
 
-(s/defn wire->update-job :- model/UpdateDto
+(s/defn wire->update-dto :- model-job/UpdateDto
   [{:keys [title url category]} :- schemata/JobUpdate]
   (cond-> {}
           title (assoc :job/title title)

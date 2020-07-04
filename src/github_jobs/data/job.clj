@@ -1,6 +1,6 @@
 (ns github-jobs.data.job
   (:require [schema.core :as s]
-            [github-jobs.model.job :refer [NewDto UpdateDto]]
+            [github-jobs.model.job :as model-job]
             [datomic.api :as d]))
 
 (defn get-jobs!
@@ -36,7 +36,7 @@
 
 (s/defn insert-job!
   [conn
-   job :- NewDto]
+   job :- model-job/NewDto]
   (d/transact conn [job]))
 
 (s/defn find-job!
@@ -74,7 +74,7 @@
 (s/defn update-job!
   [conn
    github-id :- s/Uuid
-   new-job :- UpdateDto]
+   new-job :- model-job/UpdateDto]
   (-> (find-job! conn github-id)
       (mapper-update-job conn github-id)
       (mapv new-job)))
