@@ -40,7 +40,7 @@ repl-port
 out/
 build/
 
- # Leningen from https://github.com/github/gitignore/blob/master/Leiningen.gitignore
+# Leningen from https://github.com/github/gitignore/blob/master/Leiningen.gitignore
 pom.xml
 pom.xml.asc
 *.jar
@@ -56,3 +56,5 @@ pom.xml.asc
 .nrepl-port
 .cpcache/
 
+# Environment
+**/.env

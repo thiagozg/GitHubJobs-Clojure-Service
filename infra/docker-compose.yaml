@@ -1,0 +1,43 @@
+version: '2'
+
+volumes:
+  datomic_data:
+    driver: local
+  datomic_log:
+    driver: local
+
+services:
+
+  datomic:
+    build:
+      context: docker
+      dockerfile: images/datomic-transactor/Dockerfile
+      args:
+        DATOMIC_LOGIN: "$DATOMIC_LOGIN"
+        DATOMIC_PASSWORD: "$DATOMIC_PASSWORD"
+        DATOMIC_VERSION: "$DATOMIC_VERSION"
+    environment:
+      DB_NAME: "github-jobs"
+      DATOMIC_LICENSE_KEY: "$DATOMIC_LICENSE_KEY"
+    volumes:
+      - "datomic_data:/var/datomic/data"
+      - "datomic_log:/var/datomic/log"
+      - "./images/datomic-transactor/config/:/var/datomic/config/"
+    ports:
+      - "4334:4334"
+      - "4335:4335"
+      - "4336:4336"
+
+  console:
+    build:
+      context: docker
+      dockerfile: images/datomic-console/Dockerfile
+      args:
+        DATOMIC_LOGIN: "$DATOMIC_LOGIN"
+        DATOMIC_PASSWORD: "$DATOMIC_PASSWORD"
+        DATOMIC_VERSION: "$DATOMIC_VERSION"
+    links:
+      - datomic
+    command: ["dev", "datomic:dev://datomic:4334"]
+    ports:
+      - "9000:9000"
