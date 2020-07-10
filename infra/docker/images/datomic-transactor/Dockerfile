@@ -24,6 +24,7 @@ RUN curl -u $DATOMIC_LOGIN:$DATOMIC_PASSWORD -SL https://my.datomic.com/repo/com
 WORKDIR $DATOMIC_HOME
 
 ADD ./images/datomic-transactor/start-transactor.sh .
+RUN chmod -R 755 start-transactor.sh
 CMD ./start-transactor.sh
 
 EXPOSE 4334 4335 4336

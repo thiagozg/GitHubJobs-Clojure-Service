@@ -19,10 +19,12 @@ services:
     environment:
       DB_NAME: "github-jobs"
       DATOMIC_LICENSE_KEY: "$DATOMIC_LICENSE_KEY"
+      STORAGE_ADMIN_PASSWORD: "$STORAGE_ADMIN_PASSWORD"
+      STORAGE_DATOMIC_PASSWORD: "$STORAGE_DATOMIC_PASSWORD"
     volumes:
       - "datomic_data:/var/datomic/data"
       - "datomic_log:/var/datomic/log"
-      - "./images/datomic-transactor/config/:/var/datomic/config/"
+      - "./docker/images/datomic-transactor/config/:/var/datomic/config/"
     ports:
       - "4334:4334"
       - "4335:4335"
@@ -36,8 +38,9 @@ services:
         DATOMIC_LOGIN: "$DATOMIC_LOGIN"
         DATOMIC_PASSWORD: "$DATOMIC_PASSWORD"
         DATOMIC_VERSION: "$DATOMIC_VERSION"
+        STORAGE_DATOMIC_PASSWORD: "$STORAGE_DATOMIC_PASSWORD"
     links:
       - datomic
-    command: ["dev", "datomic:dev://datomic:4334"]
+    command: ["dev", "datomic:dev://datomic:4334/github-jobs?password=$STORAGE_DATOMIC_PASSWORD"]
     ports:
       - "9000:9000"
