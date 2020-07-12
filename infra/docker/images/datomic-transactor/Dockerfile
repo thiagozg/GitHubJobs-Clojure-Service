@@ -27,4 +27,4 @@ ADD ./images/datomic-transactor/start-transactor.sh .
 RUN chmod -R 755 start-transactor.sh
 CMD ./start-transactor.sh
 
-EXPOSE 4334 4335 4336
+EXPOSE 4334 4335 4336 9999

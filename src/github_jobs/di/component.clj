@@ -7,7 +7,7 @@
 
 (defn start-server [environment]
   (component/system-map
-    :datomic (datomic/provides "datomic:dev://localhost:4334/github-jobs")
+    :datomic (datomic/provides)
     :service-map (http-config/provides environment)
     :context-deps (component/using (context-deps/provides) [:datomic])
     :pedestal (component/using (pedestal/provides) [:service-map :context-deps])))

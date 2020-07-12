@@ -76,8 +76,12 @@ infra-stop:
 infra-run: infra-start infra-logs
 
 #
-# Dev Backend
+# Start Backend and Infra
 #
-
-run: infra-start
+run: infra-run
 	lein run
+
+#
+# Clean deps, project and run server
+#
+rebuild: deps clean build run

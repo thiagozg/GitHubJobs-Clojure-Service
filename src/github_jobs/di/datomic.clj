@@ -1,7 +1,8 @@
 (ns github-jobs.di.datomic
   (:require [com.stuartsierra.component :as component]
             [github-jobs.data.schemas :as db-schemas]
-            [datomic.api :as d]))
+            [datomic.api :as d]
+            [config.core :refer [env]]))
 
 (defrecord Datomic
   [db-uri]
@@ -17,5 +18,14 @@
     (dissoc this :uri :conn)))
 
 (defn provides
-  [db-uri]
-  (->Datomic db-uri))
+  []
+  (->>
+    (:datomic-secret-password env)
+    (str (:db-uri env))
+    ->Datomic))
+
+(comment
+  (let [db-uri "datomic:dev://localhost:4334/github-jobs?password=datomic-secret-password"]
+    (d/create-database db-uri)
+    ;(d/connect db-uri)
+    ))
