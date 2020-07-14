@@ -25,7 +25,6 @@ test-clj: clean
 #
 # Build
 #
-
 build: build-clj
 
 build-clj: clean
@@ -34,7 +33,6 @@ build-clj: clean
 #
 # Dev Infra
 #
-
 infra/env:
 ifeq ($(DATOMIC_LOGIN),)
 	$(error DATOMIC_LOGIN is undefined)
@@ -78,7 +76,7 @@ infra-run: infra-start infra-logs
 #
 # Start Backend and Infra
 #
-run: infra-run
+run: infra-start
 	lein run
 
 #

@@ -23,9 +23,3 @@
     (:datomic-secret-password env)
     (str (:db-uri env))
     ->Datomic))
-
-(comment
-  (let [db-uri "datomic:dev://localhost:4334/github-jobs?password=datomic-secret-password"]
-    (d/create-database db-uri)
-    ;(d/connect db-uri)
-    ))
