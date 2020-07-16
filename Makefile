@@ -31,9 +31,9 @@ build-clj: clean
 	lein uberjar
 
 #
-# Dev Infra
+# Setup credentials
 #
-infra/env:
+infra-credentials:
 ifeq ($(DATOMIC_LOGIN),)
 	$(error DATOMIC_LOGIN is undefined)
 endif
@@ -58,6 +58,7 @@ endif
 	echo "DATOMIC_VERSION=${DATOMIC_VERSION}" >> infra/.env
 	echo "STORAGE_ADMIN_PASSWORD=${STORAGE_ADMIN_PASSWORD}" >> infra/.env
 	echo "STORAGE_DATOMIC_PASSWORD=${STORAGE_DATOMIC_PASSWORD}" >> infra/.env
+	echo "{:datomic-secret-password \"${STORAGE_DATOMIC_PASSWORD}\"}" >> .lein-env
 
 infra-start: infra/.env
 	cd infra && docker-compose up -d
@@ -82,4 +83,4 @@ run: infra-start
 #
 # Clean deps, project and run server
 #
-rebuild: deps clean build run
+rebuild: clean deps build run

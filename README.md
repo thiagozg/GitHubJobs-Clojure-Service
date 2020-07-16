@@ -1,45 +1,26 @@
-# github-jobs
+# GitHub Jobs an Clojure Microservice
 
-FIXME
+This Service was created with the objective of exploring how to code an application from zero using Clojure and other tools, like:
 
-## Getting Started
+* [Datomic](https://docs.datomic.com/on-prem/getting-started/brief-overview.html)
+* [Docker](https://docs.docker.com/get-started/overview/)
+* [Pedestal](https://github.com/pedestal/pedestal)
+* [Component](https://github.com/stuartsierra/component)
+* [Schema](https://github.com/plumatic/schema)
+* Hexagonal Architecture
 
-1. Start the application: `lein run`
-2. Go to [localhost:8080](http://localhost:8080/) to see: `Hello World!`
-3. Read your app's source code at src/github_jobs/service.clj. Explore the docs of functions
-   that define routes and responses.
-4. Run your app's tests with `lein test`. Read the tests at test/github_jobs/service_test.clj.
-5. Learn more! See the [Links section below](#links).
+### How to run
 
-
-## Configuration
-
-To configure logging see config/logback.xml. By default, the app logs to stdout and logs/.
-To learn more about configuring Logback, read its [documentation](http://logback.qos.ch/documentation.html).
-
-
-## Developing your service
-
-1. Start a new REPL: `lein repl`
-2. Start your service in dev-mode: `(def dev-serv (run-dev))`
-3. Connect your editor to the running REPL session.
-   Re-evaluated code will be seen immediately in the service.
-
-### [Docker](https://www.docker.com/) container support
-
-1. Configure your service to accept incoming connections (edit service.clj and add  ::http/host "0.0.0.0" )
-2. Build an uberjar of your service: `lein uberjar`
-3. Build a Docker image: `sudo docker build -t github-jobs .`
-4. Run your Docker image: `docker run -p 8080:8080 github-jobs`
-
-### [OSv](http://osv.io/) unikernel support with [Capstan](http://osv.io/capstan/)
-
-1. Build and run your image: `capstan run -f "8080:8080"`
-
-Once the image it built, it's cached.  To delete the image and build a new one:
-
-1. `capstan rmi github-jobs; capstan build`
-
-
-## Links
-* [Other Pedestal examples](http://pedestal.io/samples)
+1. First of all you'll need [lein](https://leiningen.org/) configured
+2. [Datomic Credentials](https://www.datomic.com/get-datomic.html) to download Pro version
+3. Substitute `${hue}` for your credentials and execute:
+```
+make infra-credentials DATOMIC_LOGIN=${hue} \
+DATOMIC_PASSWORD=${hue} \
+DATOMIC_LICENSE_KEY=${hue} \
+DATOMIC_VERSION=${hue} \
+STORAGE_ADMIN_PASSWORD=${hue} \
+STORAGE_DATOMIC_PASSWORD=${hue}
+```
+4. Execute `make deps`
+5. Execute `make run`
