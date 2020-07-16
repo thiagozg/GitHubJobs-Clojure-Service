@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "06719eb1-5292-46d0-ac93-642553fced8f",
+		"name": "GitHub-Jobs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST - Job",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\": \"9221690f-618d-4e91-8988-b770fcf1cc6d\",\n\t\"title\": \"job title\",\n\t\"url\": \"http://job.com\",\n\t\"category\": [\"android\", \"java\", \"kotlin\", \"mobile\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8890/api/job",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8890",
+					"path": [
+						"api",
+						"job"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT -  Job",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\": \"android job\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8890/api/job/9931690f-618d-4e91-8988-b770fcf1cc6d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8890",
+					"path": [
+						"api",
+						"job",
+						"9931690f-618d-4e91-8988-b770fcf1cc6d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Job",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8890/api/job/9221690f-618d-4e91-8988-b770fcf1cc6d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8890",
+					"path": [
+						"api",
+						"job",
+						"9221690f-618d-4e91-8988-b770fcf1cc6d"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET -  Job with filters",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8890/api/job?category=java&title=job",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8890",
+					"path": [
+						"api",
+						"job"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "java"
+						},
+						{
+							"key": "title",
+							"value": "job"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Job",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8890/api/job",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8890",
+					"path": [
+						"api",
+						"job"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

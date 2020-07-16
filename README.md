@@ -1,6 +1,6 @@
 # GitHub Jobs an Clojure Microservice
 
-This Service was created with the objective of exploring how to code an application from zero using Clojure and other tools, like:
+This Service was created with the objective of exploring how to code an CRUD application from zero using Clojure and other tools, like:
 
 * [Datomic](https://docs.datomic.com/on-prem/getting-started/brief-overview.html)
 * [Docker](https://docs.docker.com/get-started/overview/)
@@ -24,3 +24,6 @@ STORAGE_DATOMIC_PASSWORD=${hue}
 ```
 4. Execute `make deps`
 5. Execute `make run`
+
+### How to play
+You can import [Postman Collection](https://github.com/thiagozg/GitHubJobs-Clojure-Service/blob/master/GitHub-Jobs.postman_collection.json) to your postman app and make HTTP requests.
